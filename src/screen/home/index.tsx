@@ -1,16 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import Animated from 'react-native-reanimated';
-import {RouteStack} from '../../routes';
+import {RoutesNavigation} from '../../routes/types';
+import {styles} from './styles';
 
 export const HomeScreen = () => {
   const uri = 'https://avatars.githubusercontent.com/u/33847803?v=4';
-  const navigation = useNavigation<RouteStack>();
+  const navigation = useNavigation<RoutesNavigation>();
+
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
-
+      <Text style={styles.title}>Home Screen</Text>
       <Animated.Image
         sharedTransitionTag="profile"
         source={{uri: uri}}
@@ -19,31 +20,13 @@ export const HomeScreen = () => {
       <View style={styles.box}>
         <Button
           title="Go to Details"
-          onPress={() =>
+          onPress={() => {
             navigation.navigate('Details', {
               profileImg: uri,
-            })
-          }
+            });
+          }}
         />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  profile: {
-    width: 150,
-    height: 150,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-  },
-  box: {
-    marginTop: 'auto',
-    padding: 20,
-    width: '100%',
-    gap: 24,
-  },
-});

@@ -2,16 +2,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {DetailsScreen} from '../screen/details';
 import {HomeScreen} from '../screen/home';
-
-export type RouteStack = {
-  Home: undefined;
-  Details: {
-    profileImg: string;
-  };
-};
+import {RouteStackList} from './types';
 
 export const Routes = () => {
-  const Stack = createNativeStackNavigator<RouteStack>();
+  const Stack = createNativeStackNavigator<RouteStackList>();
   return (
     <NavigationContainer>
       <Stack.Navigator>

@@ -1,32 +1,33 @@
-import {RouteProp} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import Animated, {FadeInLeft, FadeOutLeft} from 'react-native-reanimated';
-import {RouteStack} from '../../routes';
+import {PagesRoute, RoutesNavigation} from '../../routes/types';
+import {styles} from './styles';
 
-type DetailsScreen = RouteProp<RouteStack, 'Home'>;
-
-type Props = {
-  route: DetailsScreen;
-};
-export const DetailsScreen = ({navigation, route}) => {
+export const DetailsScreen = () => {
+  const navigation = useNavigation<RoutesNavigation>();
+  const route = useRoute<PagesRoute<'Details'>>();
   const {profileImg} = route.params;
+
   const [showCard, setShowCard] = useState(true);
   return (
     <View style={styles.container}>
-      <Text>DetailsScreen Screen</Text>
       <Animated.Image
         sharedTransitionTag="profile"
         source={{uri: profileImg}}
         style={styles.profile}
       />
+      <Text style={styles.title}>DetailsScreen Screen</Text>
+
       {showCard && (
         <Animated.View
-          entering={FadeInLeft.duration(500).delay(300)}
-          exiting={FadeOutLeft.duration(500).delay(300)}
+          entering={FadeInLeft.duration(500).delay(600)}
+          exiting={FadeOutLeft.duration(500).delay(600)}
           style={styles.card}
         />
       )}
+
       <View style={styles.box}>
         <Button title="Show Card" onPress={() => setShowCard(prev => !prev)} />
         <Button title="Go back" onPress={() => navigation.goBack()} />
@@ -34,27 +35,3 @@ export const DetailsScreen = ({navigation, route}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    marginTop: 20,
-    width: 250,
-    height: 150,
-    backgroundColor: '#000022',
-  },
-  profile: {
-    width: '100%',
-    height: 350,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  box: {
-    marginTop: 'auto',
-    padding: 20,
-    width: '100%',
-    gap: 24,
-  },
-});
